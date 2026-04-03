@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap');
 
 *,
 *::before,
@@ -11,6 +11,7 @@
 :root {
   --gray-950: #030712;
   --gray-900: #111827;
+  --gray-850: #162031;
   --gray-800: #1f2937;
   --gray-700: #374151;
   --gray-600: #4b5563;
@@ -23,6 +24,7 @@
   --blue-400: #60a5fa;
   --blue-300: #93c5fd;
   --purple-500: #a855f7;
+  --purple-400: #c084fc;
   --purple-300: #d8b4fe;
   --green-500: #22c55e;
   --green-400: #4ade80;
@@ -36,17 +38,22 @@
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-xl: 16px;
+  --radius-2xl: 20px;
   --radius-full: 9999px;
 
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-normal: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 1000ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  --glow-blue: 0 0 40px rgba(96, 165, 250, 0.15);
+  --glow-purple: 0 0 40px rgba(168, 85, 247, 0.15);
 }
 
 html {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -54,17 +61,19 @@ body {
   color: #fff;
   font-family: var(--font-sans);
   line-height: 1.6;
+  overflow-x: hidden;
 }
 
 a {
   color: var(--blue-400);
-  text-decoration: underline;
+  text-decoration: none;
   text-underline-offset: 2px;
   transition: color var(--transition-fast);
 }
 
 a:hover {
   color: var(--blue-300);
+  text-decoration: underline;
 }
 
 hr {
@@ -74,13 +83,74 @@ hr {
 
 code {
   font-family: var(--font-mono);
-  font-size: 0.875em;
+  font-size: 0.85em;
   background: var(--gray-800);
-  padding: 2px 6px;
+  padding: 2px 8px;
   border-radius: var(--radius-sm);
+  border: 1px solid var(--gray-700);
 }
 
 button {
   font-family: inherit;
   cursor: pointer;
+}
+
+/* Noise texture overlay */
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+/* Glow keyframes */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes float-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes count-up {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Section fade-in */
+.section-enter {
+  animation: float-up 0.6s ease-out both;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--gray-950);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gray-700);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gray-600);
 }

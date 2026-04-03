@@ -13,14 +13,15 @@ export default function PromptCard({ prompt }: PromptCardProps) {
   return (
     <div
       style={{
-        background: "var(--gray-900)",
-        borderRadius: "var(--radius-lg)",
-        border: `1px solid ${expanded ? meta.color + "40" : "var(--gray-800)"}`,
+        background: expanded
+          ? `linear-gradient(135deg, var(--gray-900) 0%, ${meta.color}06 100%)`
+          : "var(--gray-900)",
+        borderRadius: "var(--radius-xl)",
+        border: `1px solid ${expanded ? meta.color + "30" : "var(--gray-800)"}`,
         overflow: "hidden",
-        transition: "border-color var(--transition-normal)",
+        transition: "all var(--transition-normal)",
       }}
     >
-      {/* Header — always visible */}
       <button
         onClick={() => setExpanded((v) => !v)}
         style={{
@@ -35,27 +36,28 @@ export default function PromptCard({ prompt }: PromptCardProps) {
           textAlign: "left",
         }}
       >
-        {/* Phase dot + number */}
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, minWidth: 32 }}>
+        {/* Phase number */}
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, minWidth: 36 }}>
           <div
             style={{
-              width: 28,
-              height: 28,
+              width: 32,
+              height: 32,
               borderRadius: "var(--radius-full)",
-              background: meta.color + "20",
+              background: meta.color + "15",
+              border: `1px solid ${meta.color}30`,
               color: meta.color,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: 13,
+              fontSize: 14,
               fontWeight: 700,
               fontFamily: "var(--font-mono)",
             }}
           >
             {prompt.id}
           </div>
-          <div style={{ fontSize: 10, color: "var(--gray-500)", textTransform: "uppercase", letterSpacing: "0.05em" }}>
-            {meta.label.split(" ")[0]}
+          <div style={{ fontSize: 9, color: meta.color, textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600, opacity: 0.7 }}>
+            {meta.label}
           </div>
         </div>
 
@@ -69,47 +71,57 @@ export default function PromptCard({ prompt }: PromptCardProps) {
               lineHeight: 1.5,
             }}
           >
-            <span style={{ color: "var(--gray-600)", userSelect: "none" }}>$ </span>
+            <span style={{ color: meta.color, opacity: 0.5, userSelect: "none" }}>$ </span>
             {prompt.text}
           </div>
           <div style={{ fontSize: 12, color: "var(--gray-500)", marginTop: 6 }}>
-            {prompt.wordCount} words → {prompt.outputScope.slice(0, 60)}…
+            <span style={{ color: meta.color, fontWeight: 600 }}>{prompt.wordCount}w</span>
+            {" → "}
+            {prompt.outputScope.slice(0, 65)}…
           </div>
         </div>
 
-        {/* Expand indicator */}
+        {/* Expand */}
         <div
           style={{
-            fontSize: 18,
+            fontSize: 16,
             color: "var(--gray-600)",
             transition: "transform var(--transition-fast)",
             transform: expanded ? "rotate(180deg)" : "rotate(0deg)",
-            marginTop: 4,
+            marginTop: 6,
           }}
         >
           ▾
         </div>
       </button>
 
-      {/* Expandable detail */}
       {expanded && (
-        <div style={{ padding: "0 24px 20px 72px", display: "flex", flexDirection: "column", gap: 16 }}>
-          {/* Implied context */}
+        <div style={{ padding: "0 24px 24px 76px", display: "flex", flexDirection: "column", gap: 20 }}>
           <div>
-            <div style={{ fontSize: 11, color: meta.color, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8, fontWeight: 600 }}>
-              Implied Context (not stated)
+            <div style={{ fontSize: 10, color: meta.color, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 10, fontWeight: 700 }}>
+              Implied — not stated
             </div>
-            {prompt.impliedContext.map((ctx, i) => (
-              <div key={i} style={{ fontSize: 13, color: "var(--gray-400)", lineHeight: 1.7, paddingLeft: 12, borderLeft: `2px solid ${meta.color}30` }}>
-                {ctx}
-              </div>
-            ))}
+            <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+              {prompt.impliedContext.map((ctx, i) => (
+                <div
+                  key={i}
+                  style={{
+                    fontSize: 13,
+                    color: "var(--gray-400)",
+                    lineHeight: 1.6,
+                    paddingLeft: 14,
+                    borderLeft: `2px solid ${meta.color}25`,
+                  }}
+                >
+                  {ctx}
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* Output scope */}
           <div>
-            <div style={{ fontSize: 11, color: "var(--green-400)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8, fontWeight: 600 }}>
-              Actual Output Scope
+            <div style={{ fontSize: 10, color: "var(--green-400)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 10, fontWeight: 700 }}>
+              What actually came out
             </div>
             <div style={{ fontSize: 13, color: "var(--gray-300)", lineHeight: 1.7 }}>
               {prompt.outputScope}

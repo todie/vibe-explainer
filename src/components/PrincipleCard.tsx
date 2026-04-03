@@ -13,15 +13,28 @@ export default function PrincipleCard({ principle, index }: PrincipleCardProps) 
   return (
     <div
       style={{
-        background: "var(--gray-900)",
-        borderRadius: "var(--radius-lg)",
-        padding: "24px",
-        borderLeft: `3px solid ${color}`,
+        background: `linear-gradient(135deg, var(--gray-900) 0%, ${color}06 100%)`,
+        borderRadius: "var(--radius-xl)",
+        padding: "28px",
+        border: `1px solid ${color}18`,
+        position: "relative",
+        overflow: "hidden",
       }}
     >
-      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
-        <span style={{ fontSize: 22 }}>{principle.icon}</span>
-        <h3 style={{ fontSize: 15, fontWeight: 600, color }}>
+      {/* Left accent */}
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          bottom: 0,
+          width: 3,
+          background: `linear-gradient(180deg, ${color}, ${color}30)`,
+        }}
+      />
+      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
+        <span style={{ fontSize: 24, lineHeight: 1 }}>{principle.icon}</span>
+        <h3 style={{ fontSize: 15, fontWeight: 700, color, letterSpacing: "-0.01em" }}>
           {principle.title}
         </h3>
       </div>
