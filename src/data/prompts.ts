@@ -1,4 +1,4 @@
-/** The critical-path prompt chain from the real session that built the LLM research SPA. */
+/** The critical-path prompt chain from the real session that built this SPA. */
 
 export interface PromptEntry {
   readonly id: number;
@@ -17,11 +17,11 @@ export type Phase =
   | "maintenance";
 
 export const PHASE_META: Record<Phase, { readonly label: string; readonly color: string }> = {
-  research:    { label: "Research Sourcing",  color: "#60a5fa" },
-  creation:    { label: "Frontend Creation",  color: "#a855f7" },
-  deployment:  { label: "Hosting / Deploy",   color: "#22c55e" },
-  quality:     { label: "Quality Pass",       color: "#facc15" },
-  maintenance: { label: "Maintenance",        color: "#f87171" },
+  research:    { label: "Research",    color: "#60a5fa" },
+  creation:    { label: "Build",       color: "#a855f7" },
+  deployment:  { label: "Deploy",      color: "#22c55e" },
+  quality:     { label: "Fix",         color: "#facc15" },
+  maintenance: { label: "Maintain",    color: "#f87171" },
 } as const;
 
 export const PROMPT_CHAIN: readonly PromptEntry[] = [
@@ -57,7 +57,7 @@ export const PROMPT_CHAIN: readonly PromptEntry[] = [
     wordCount: 5,
     impliedContext: [
       "\"static site\" = Vite build output, not dev server",
-      "ngrok implies: auth token needed, tunnel config, serve script",
+      "ngrok implies: auth token, tunnel config, serve script",
       "Implicitly: build pipeline, package.json scripts, dist/ output",
     ],
     outputScope: "Vite build pipeline, HTTP server, ngrok tunnel, serve.sh with --ngrok flag, public URL",
@@ -70,7 +70,7 @@ export const PROMPT_CHAIN: readonly PromptEntry[] = [
     impliedContext: [
       "Refers to the live ngrok URL just deployed",
       "\"broken\" could mean: blank page, render error, missing sections, styling bug",
-      "Agent must diagnose — screenshot, DOM inspect, console errors",
+      "Agent must diagnose from scratch — screenshot, DOM inspect, console errors",
     ],
     outputScope: "Full diagnostic: Chrome navigation, screenshot capture, DOM analysis, render verification",
   },
@@ -109,5 +109,5 @@ export const STATS = {
   shortestWords: 2,
   totalOutputFiles: 18,
   totalOutputLines: 1200,
-  amplificationRatio: "1 : 150",
+  amplificationRatio: "1:150",
 } as const;
